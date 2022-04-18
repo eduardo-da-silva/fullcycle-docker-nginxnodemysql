@@ -1,0 +1,44 @@
+version: '3.8'
+
+services: 
+  web:
+    build: 
+      context: ./nginx
+    image: eduardosilvasc/nginx
+    container_name: nginx
+    networks: 
+      - fullnet
+    ports: 
+      - "8080:80"
+    depends_on:
+      - app
+  app:
+    build: 
+      context: node
+    container_name: app
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 20s node index.js
+    networks: 
+      - fullnet
+    volumes: 
+      - ./node:/usr/src/app
+    tty: true
+    depends_on: 
+       - db
+
+  db:
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0
+    container_name: db
+    restart: always
+    tty: true
+    volumes: 
+      - ./mysql:/var/lib/mysql
+    environment: 
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=root
+    networks: 
+      - fullnet
+
+networks: 
+  fullnet:
+    driver: bridge     
