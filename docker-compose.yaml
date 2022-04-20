@@ -19,8 +19,6 @@ services:
     entrypoint: dockerize -wait tcp://db:3306 -timeout 20s node index.js
     networks: 
       - fullnet
-    volumes: 
-      - ./node:/usr/src/app
     tty: true
     depends_on: 
        - db
