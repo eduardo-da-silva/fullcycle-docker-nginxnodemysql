@@ -13,8 +13,8 @@ const connection = mysql.createConnection(config)
 const sql1 = `CREATE TABLE IF NOT EXISTS people (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255) NOT NULL)  ENGINE=INNODB;`
 connection.query(sql1)
 
-// const sql2 = `INSERT INTO people(name) values('Eduardo da Silva')`
-// connection.query(sql2)
+const sql2 = `INSERT INTO people(name) values('Eduardo da Silva')`
+connection.query(sql2)
 connection.end()
 
 
